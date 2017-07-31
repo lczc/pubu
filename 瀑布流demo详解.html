@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .box{
+            padding-top: 50px;
+            max-width:1000px;
+            margin: auto;
+        }
+        .box > ul{
+            width:calc(25% - 30px);
+            float: left;
+            box-sizing: border-box;
+        }
+        .box ul + ul{
+            margin-left: 40px;
+        }
+        .box > ul > li.h200{
+            height:200px;
+        }
+
+        .box > ul > li.h70{
+            height:70px;
+        }
+
+        .box > ul > li.h300{
+            height:300px;
+        }
+
+        .box > ul > li.h180{
+            height:180px;
+        }
+        .box ul li+li{
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="box">
+        <ul>
+            <!--<li class="h200"></li>
+            <li class="h70"></li>
+            <li class="h300"></li>
+            <li class="h180"></li>-->
+        </ul>
+        <ul></ul>
+        <ul></ul>
+        <ul></ul>
+    </div>
+
+
+    <script>
+        //创建Li
+
+        function appendLi(){
+            var aUl=document.querySelectorAll(".box > ul");  //获得所有Ul
+            var arrClass=["h200","h70","h300","h180"];         //定义class类名
+            var arrColor=["#ccc","pink","yellow","red"]       //定义背景颜色
+            var ul_1=aUl[0].offsetHeight;
+            var ul_2=aUl[1].offsetHeight;
+            var ul_3=aUl[2].offsetHeight;
+            var ul_4=aUl[3].offsetHeight;                      //获得每一个Ul当前的高度 ，记得在放在循环当中
+            var minUlHeight=Math.min(ul_1,ul_2,ul_3,ul_4);  //高度最小的UL
+            //console.log(minUlHeight);
+            var minoUl;               //d定义最小高度UL的名称
+            for(var i=0; i<aUl.length; i++){
+                if (aUl[i].offsetHeight == minUlHeight){     //循环得到最小高度的UL
+                    minoUl=aUl[i];                            //传入固定的变量名minoUl
+                };
+
+                var aLi=document.createElement("li");        //创建Li
+                aLi.className=arrClass[radomClass()];        //添加class，随机数添加
+                aLi.style.background=arrColor[radomClass()]   //随机添加背景颜色
+
+
+            };
+            minoUl.appendChild(aLi);    //为最小高度的UL插入动态创建好的li
+        }
+
+        //获取随机数
+        function radomClass() {
+            return Math.floor(Math.random()*4);
+        }
+
+        for(var i=0; i<20; i++){
+            appendLi();               //先执行函数20次得到初始界面
+        }
+
+        window.onscroll=function () {            //添加滚动事件
+            //文档的高度 - 屏幕的高度  ==   scrollTop    到度部了
+            var a =  document.documentElement.offsetHeight - document.documentElement.clientHeight;  //文档高出屏幕部分
+            var b= parseInt(document.body.scrollTop) || parseInt(document.documentElement.scrollTop);//滚动的距离
+            //console.log(b)
+            if (a==b){          //滚到底部了
+                window.scrollTo(0,a-50);   //马上回到距离底部50px位置
+                appendLi();// 再次调用创建函数
+            }
+        }
+
+
+    </script>
+</body>
+</html>
